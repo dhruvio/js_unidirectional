@@ -1,0 +1,6 @@
+*.swp
+*.tmp
+*.pem
+node_modules/
+build/
+tmp/

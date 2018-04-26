@@ -1,0 +1,56 @@
+{
+  "name": "unidirectional",
+  "version": "0.0.1",
+  "description": "The Elm Architecture for user interface development in JavaScript",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npx grunt start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhruvio/js_unidirectional.git"
+  },
+  "keywords": [
+    "frp",
+    "elm",
+    "react",
+    "redux",
+    "flux",
+    "fp",
+    "functional",
+    "reactive",
+    "framework",
+    "ui"
+  ],
+  "author": "Dhruv Dang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhruvio/js_unidirectional/issues"
+  },
+  "homepage": "https://github.com/dhruvio/js_unidirectional#readme",
+  "dependencies": {
+    "got": "^8.3.0",
+    "lodash": "^4.17.5",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.2.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-http-server": "^2.0.0",
+    "load-grunt-tasks": "^3.5.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "redux": "^3.7.2",
+    "require-dir": "^0.3.2"
+  }
+}
