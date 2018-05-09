@@ -17,6 +17,7 @@ function makeSubscriptionManager (subscriptions) {
 }
 
 function loop ({ store, element, render, view, subscriptions }) {
+  const { getState, dispatch } = store;
   const manageSubscriptions = makeSubscriptionManager(subscriptions);
   const tick = ({ state, command = noop }) => {
     command(dispatch);
@@ -24,13 +25,17 @@ function loop ({ store, element, render, view, subscriptions }) {
     manageSubscriptions({ state, dispatch });
   };
   store.subscribe(tick);
-  tick();
+  tick(getState());
 }
 
-export default function program ({ Component = {}, selector = "body", options = {} }) {
+export function program ({ Component = {}, selector = "body", options = {} }) {
   const { init, subscriptions, update, view } = Component;
   const { createStore, render } = options;
   const store = createStore({ init, update });
   const element = document.querySelector(selector);
   loop({ store, element, render, view, subscriptions });
 }
+
+export default {
+  program
+};

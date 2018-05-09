@@ -1,8 +1,8 @@
 "use strict";
 
-function createStoreRedux ({ createStore }) {
-  const createDispatch ({ store }) => (type, data) => store.dispatch({ type, data });
-  const createReducer ({ init, update }) => {
+export default function createStoreRedux ({ createStore }) {
+  const createDispatch = ({ store }) => (type, data) => store.dispatch({ type, data });
+  const createReducer = ({ init, update }) => {
     return (reduxState, { type: message, data }) => {
       //initialize state here so the command is run properly
       if (message === "@@redux/INIT" || message === "@@INIT") return init();
@@ -18,7 +18,8 @@ function createStoreRedux ({ createStore }) {
     const reducer = createReducer({ init, update });
     const reduxStore = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     return {
-      subscribe: fn => store.subscribe(() => fn(store.getState())),
+      getState: () => reduxStore.getState(),
+      subscribe: fn => reduxStore.subscribe(() => fn(reduxStore.getState())),
       dispatch: createDispatch({ store: reduxStore })
     };
   };

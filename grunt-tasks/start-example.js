@@ -1,5 +1,5 @@
 module.exports = [
-  "build",
+  "build-example",
   "http-server",
   "connect:backEnd",
   "watch"

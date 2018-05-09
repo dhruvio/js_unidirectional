@@ -1,8 +1,8 @@
-module.exports = grunt => ({
+module.exports = (grunt, config) => ({
   "static": {
     expand: true,
-    cwd: gruntConfig.src.static,
+    cwd: config.src.static(),
     src: "**",
-    dest: gruntConfig.dir.build
+    dest: config.dir.out()
   }
 });

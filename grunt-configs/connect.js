@@ -143,13 +143,13 @@ const handlers = {
 
 };
 
-module.exports = grunt => {
+module.exports = (grunt, config) => {
   const log = msg => grunt.log.writeln(`[connect:backEnd] ${msg}`);
   return {
     backEnd: {
       options: {
-        port: gruntConfig.env.backEndPort,
-        hostname: gruntConfig.env.backEndHost,
+        port: config.env.backEndPort(),
+        hostname: config.env.backEndHost(),
         onCreateServer: (server, connect, options) => {
           const io = require("socket.io").listen(server);
           io.on("connection", socket => {

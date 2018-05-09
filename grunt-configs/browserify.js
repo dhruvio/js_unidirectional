@@ -1,6 +1,13 @@
-module.exports = grunt => ({
+module.exports = (grunt, config) => ({
   build: {
     options: {
+      browserifyOptions: {
+        basedir: config.src.js(),
+        paths: [
+          "../../../../node_modules",
+          "../../../../"
+        ],
+      },
       transform: [
         [
           "babelify",
@@ -14,8 +21,8 @@ module.exports = grunt => ({
       ]
     },
     src: [
-      `${gruntConfig.src.js}/index.js`
+      `${config.src.js()}/index.js`
     ],
-    dest: `${gruntConfig.out.js}`
+    dest: config.out.js()
   }
 });

@@ -1,8 +1,8 @@
-module.exports = grunt => ({
+module.exports = (grunt, config) => ({
   dev: {
-    root: gruntConfig.dir.build,
-    port: gruntConfig.env.frontEndPort,
-    host: gruntConfig.env.frontEndHost,
+    root: config.dir.out(),
+    port: config.env.frontEndPort(),
+    host: config.env.frontEndHost(),
     cache: 0,
     showDir: true,
     autoIndex: true,

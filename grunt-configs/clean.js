@@ -1,3 +1,3 @@
-module.exports = grunt => ({
-  build: [ gruntConfig.dir.build ]
+module.exports = (grunt, config) => ({
+  build: [ config.dir.out() ]
 });

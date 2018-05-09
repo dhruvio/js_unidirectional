@@ -1,15 +1,16 @@
-module.exports = grunt => ({
+module.exports = (grunt, config) => ({
   options: {
     interrupt: true,
     debounceDelay: 250
   },
-  dev: {
+  example: {
     files: [
-      `${gruntConfig.src.js}/**`,
-      `${gruntConfig.src.static}/**`
+      `${config.src.pkg()}/**`,
+      `${config.src.js()}/**`,
+      `${config.src.static()}/**`
     ],
     tasks: [
-      "build"
+      "build-example"
     ]
   }
 });
