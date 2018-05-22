@@ -1,5 +1,9 @@
 const _ = require("lodash");
 const got = require("got");
+const fs = require("fs");
+const path = require("path");
+const mime = require("mime-types");
+const serveStatic = require("serve-static");
 
 const activeSockets = [];
 
@@ -115,7 +119,7 @@ const handlers = {
         code: 200,
         body: payload,
         publish: {
-          channel: "newGif",
+          channel: `newGif:${bucketId}`,
           data: payload
         }
       };
@@ -144,7 +148,8 @@ const handlers = {
 };
 
 module.exports = (grunt, config) => {
-  const log = msg => grunt.log.writeln(`[connect:backEnd] ${msg}`);
+  const logBe = msg => grunt.log.writeln(`[connect:backEnd] ${msg}`);
+  const logFe = msg => grunt.log.writeln(`[connect:frontEnd] ${msg}`);
   return {
     backEnd: {
       options: {
@@ -159,13 +164,13 @@ module.exports = (grunt, config) => {
         },
         middleware: [
           (req, res, next) => {
-            log(`request: ${req.method} ${req.url}`);
+            logBe(`request: ${req.method} ${req.url}`);
             const { route, params } = router(req.method, req.url);
             if (!route) return next();
             const bucketId = req.headers["x-bucket-id"] || "cats";
             const handler = handlers[route];
             if (!handler) return next();
-            log(`handler: ${route} ${bucketId}`);
+            logBe(`handler: ${route} ${bucketId}`);
             handler(bucketId, params)
               .then(({ code, body, publish }) => {
                 res.statusCode = code;
@@ -180,9 +185,29 @@ module.exports = (grunt, config) => {
                 });
               })
               .catch(error => {
-                log("unhandled error");
-                log(error.message || error);
+                logBe("unhandled error");
+                logBe(error.message || error);
               });
+          }
+        ]
+      }
+    },
+    frontEnd: {
+      options: {
+        port: config.env.frontEndPort(),
+        hostname: config.env.frontEndHost(),
+        middleware: [
+          serveStatic(config.dir.out(), {
+            fallThrough: true
+          }),
+          (req, res, next) => {
+            logFe(`serving fallback: ${req.method} ${req.url}`);
+            const file = path.join(config.dir.out(), "index.html");
+            const stat = fs.statSync(file);
+            const contentType = mime.contentType(path.extname(file));
+            res.setHeader("content-type", contentType);
+            res.setHeader("content-length", stat.size);
+            fs.createReadStream(file).pipe(res);
           }
         ]
       }

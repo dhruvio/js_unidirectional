@@ -4,7 +4,7 @@
   "description": "The Elm Architecture for user interface development in JavaScript",
   "main": "src/index.js",
   "scripts": {
-    "start": "npx grunt start-example --example=hello-world",
+    "start": "npx grunt start-example --example=gif-list",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -32,6 +32,7 @@
   "dependencies": {
     "got": "^8.3.0",
     "lodash": "^4.17.5",
+    "object-hash": "^1.3.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4"
   },
@@ -46,11 +47,12 @@
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-http-server": "^2.0.0",
     "load-grunt-tasks": "^3.5.2",
+    "mime-types": "^2.1.18",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "redux": "^3.7.2",
-    "require-dir": "^0.3.2"
+    "require-dir": "^0.3.2",
+    "serve-static": "^1.13.2"
   }
 }

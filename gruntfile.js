@@ -7,12 +7,12 @@ const gruntTasks = requireDir("./grunt-tasks");
 module.exports = function (grunt) {
   //set up default options
   grunt.option.init({
-    out: "./build",
-    example: "hello-world",
-    "front-end-port": 3000,
-    "front-end-host": "127.0.0.1",
-    "back-end-port": 3001,
-    "back-end-host": "127.0.0.1"
+    out: grunt.option("out") || "./build",
+    example: grunt.option("example") || "hello-world",
+    "front-end-port": grunt.option("front-end-port") || 3000,
+    "front-end-host": grunt.option("front-end-host") || "127.0.0.1",
+    "back-end-port": grunt.option("back-end-port") || 3001,
+    "back-end-host": grunt.option("back-end-host") || "127.0.0.1"
   });
   //set up config object
   const src = () => `./doc/example/${grunt.option("example")}`;

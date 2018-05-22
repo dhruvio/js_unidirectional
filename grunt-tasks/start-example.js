@@ -1,6 +1,6 @@
 module.exports = [
   "build-example",
-  "http-server",
+  "connect:frontEnd",
   "connect:backEnd",
   "watch"
 ];

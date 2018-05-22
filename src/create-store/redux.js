@@ -1,5 +1,7 @@
 "use strict";
 
+import { get } from "lodash";
+
 export default function createStoreRedux ({ createStore }) {
   const createDispatch = ({ store }) => (type, data) => store.dispatch({ type, data });
   const createReducer = ({ init, update }) => {
