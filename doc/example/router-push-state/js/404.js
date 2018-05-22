@@ -23,8 +23,11 @@ export function view ({ state, shared, dispatch }) {
   };
   return (
     <div>
-      <a onClick={goHome}>
+      <h1>
         404 Not Found
+      </h1>
+      <a href="#" onClick={goHome}>
+        Go Home
       </a>
     </div>
   );

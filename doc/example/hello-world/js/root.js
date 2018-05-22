@@ -7,12 +7,8 @@ import mapCommand from "src/util/map-command";
 import updateChild from "src/util/update-child";
 import pushPath from "src/command/push-path";
 
-export const init = ({ path, params, route }) => {
-  const shared = {
-    path,
-    title: "",
-    websocketLog: []
-  };
+export const init = ({ params, route }) => {
+  const shared = null;
   const { state: pageState, command: pageCommand } = route.Component.init({ shared, params });
   return {
     state: {
@@ -37,25 +33,13 @@ export const subscriptions = ({ state, lib }) => {
 
 export const update = ({ state, message, data }) => {
   switch (message) {
-    case "@setTitle":
-      state.shared.title = data.title;
-      return { state };
-
     case "@navigate":
       return {
         state,
         command: pushPath(data.path)
       };
 
-    case "@appendToWebsocketLog":
-      state.shared.websocketLog.push({
-        timestamp: Date.now(),
-        message: data.message
-      });
-      return { state };
-
     case "route":
-      state.shared.path = data.path;
       const { state: pageState, command: pageCommand } = data.route.Component.init({
         shared: state.shared,
         params: data.params
@@ -85,47 +69,12 @@ export const update = ({ state, message, data }) => {
   }
 };
 
-const linkStyle = {
-  color: "blue",
-  textDecoration: "underline",
-  cursor: "pointer"
-};
-
-const viewHeader = ({ state, dispatch }) => {
-  return (
-    <header>
-      <h1 style={linkStyle} onClick={() => dispatch("@navigate", { path: "/" })}>
-        My Gif App
-      </h1>
-      <ul>
-        <li>
-          <b>Title:</b> {state.shared.title}
-        </li>
-        <li>
-          <b style={linkStyle} onClick={() => dispatch("@navigate", { path: "/log" })}>Websocket messages processed:</b>
-          <span style={{ marginLeft: "10px" }}>{state.shared.websocketLog.length}</span>
-        </li>
-      </ul>
-    </header>
-  );
-};
-
-const viewActivePage = ({ state, dispatch }) => {
-  const pageDispatch = mapDispatch("pageMessage", dispatch);
-  const { Component, state: pageState } = state.page;
-  return (
-    <div className="page page-active">
-      <Component.view shared={state.shared} state={pageState} dispatch={pageDispatch} />
-    </div>
-  );
-};
-
 export const view = ({ state, dispatch }) => {
   return (
     <div id="app">
-      {viewHeader({ state, dispatch })}
+      <h1>My HelloWorld App</h1>
       <hr />
-      {viewActivePage({ state, dispatch })}
+      <state.page.Component.view state={state.page.state} shared={state.shared} dispatch={mapDispatch("pageMessage", dispatch)} />
     </div>
   );
 };

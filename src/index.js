@@ -84,7 +84,7 @@ function makeRouter ({ routes = [], pushState = true }) {
 
   //get location info from the browser
   const rawLocation = () => ({
-    pathname: window.location.pathname,
+    pathname: window.decodeURI(window.location.pathname),
     hash: window.location.hash,
     query: window.location.query,
     origin: window.location.origin

@@ -1,10 +1,12 @@
 "use strict";
 
 import React from "react";
+import dispatchCommand from "src/command/dispatch";
 
 export function init (shared) {
   return {
-    state: {}
+    state: {},
+    command: dispatchCommand("@setTitle", { title: "Not Found" })
   };
 }
 

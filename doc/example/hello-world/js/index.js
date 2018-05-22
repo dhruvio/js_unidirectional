@@ -9,9 +9,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import * as Redux from "redux";
 import * as Root from "./root";
-import * as GifList from "./gif-list";
-import * as GifPermalink from "./gif-permalink";
-import * as WebsocketLog from "./websocket-log";
+import * as Hello from "./hello";
 import * as NotFound from "./404";
 
 programWithRoutes({
@@ -31,19 +29,11 @@ programWithRoutes({
   routes: [
     {
       pattern: /^\/$/,
-      Component: GifList
+      Component: Hello 
     },
     {
-      pattern: /^\/gifs\/([a-zA-Z0-9\s]+)\/?$/,
-      Component: GifList
-    },
-    {
-      pattern: /^\/gif\/([a-zA-Z0-9\s]+)\/([a-zA-Z0-9\s]+)\/?$/,
-      Component: GifPermalink
-    },
-    {
-      pattern: /^\/log\/?$/,
-      Component: WebsocketLog
+      pattern: /^\/hello\/([a-zA-Z0-9\s]+)\/?$/,
+      Component: Hello
     },
     {
       pattern: /.*/,

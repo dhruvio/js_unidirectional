@@ -10,6 +10,7 @@ import mapIndexedSubscriptions from "src/util/map-indexed-subscriptions";
 import updateIndexedChild from "src/util/update-indexed-child";
 import batchCommands from "src/util/batch-commands";
 import httpCommand from "src/command/http";
+import replacePathCommand from "src/command/replace-path";
 import dispatchCommand from "src/command/dispatch";
 
 const getAllGifs = bucketId => httpCommand({
@@ -22,7 +23,7 @@ const getAllGifs = bucketId => httpCommand({
 
 const getNewGif = (bucketId, category) => httpCommand({
   method: "POST",
-  url: `http://localhost:3001/gif/${category}`,
+  url: `http://localhost:3001/gif/${window.encodeURIComponent(category)}`,
   headers: { "x-bucket-id": bucketId },
   successMessage: "onGetNewGifSuccess",
   failureMessage: "onGetNewGifFailure"
@@ -30,21 +31,29 @@ const getNewGif = (bucketId, category) => httpCommand({
 
 const INIT_BUCKET_ID = "dogs";
 
-export const init = ({ shared, params }) => ({
-  state: {
-    loadingStatus: "loading",
-    bucketId: {
-      input: INIT_BUCKET_ID,
-      value: INIT_BUCKET_ID
+export const init = ({ shared, params }) => {
+  const [bucketId = INIT_BUCKET_ID] = params;
+  let command;
+  if (shared.path === "/")
+    command = replacePathCommand(`/gifs/${bucketId}`);
+  else
+    command = batchCommands(
+      dispatchCommand("@setTitle", { title: "List of Gifs" }),
+      getAllGifs(bucketId)
+    );
+  return {
+    state: {
+      loadingStatus: "loading",
+      bucketId: {
+        input: bucketId,
+        value: bucketId
+      },
+      categoryInput: "dog",
+      gifs: []
     },
-    categoryInput: "dog",
-    gifs: []
-  },
-  command: batchCommands(
-    dispatchCommand("@setTitle", { title: "List of Gifs" }),
-    getAllGifs(INIT_BUCKET_ID)
-  )
-});
+    command
+  };
+};
 
 export const subscriptions = ({ shared, state, lib }) => {
   const { gifs } = state;
@@ -60,11 +69,9 @@ export const update = ({ shared, state, message, data }) => {
       return { state };
 
     case "changeBucketId":
-      state.loadingStatus = "loading";
-      state.bucketId.value = state.bucketId.input;
       return {
         state,
-        command: getAllGifs(state.bucketId.value)
+        command: replacePathCommand(`/gifs/${state.bucketId.input}`)
       };
 
     case "onInputCategory":
