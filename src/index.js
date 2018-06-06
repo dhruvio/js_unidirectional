@@ -127,7 +127,8 @@ function makeRouteSubscription (router) {
 export function program ({ Root = {}, selector = "body", createStore, render, subscriptionLib }) {
   const { init, subscriptions, update, view } = Root;
   const store = createStore({ init, update });
-  const element = document.querySelector(selector);
+  //element is undefined on the server, or when querySelector is not available
+  const element = get(document, "querySelector") && document.querySelector(selector);
   loop({ store, element, render, view, subscriptions, subscriptionLib });
 }
 
